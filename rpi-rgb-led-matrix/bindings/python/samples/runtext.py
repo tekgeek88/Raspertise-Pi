@@ -39,7 +39,10 @@ class RunText(SampleBase):
                 font.LoadFont("../../../fonts/tom-thumb.bdf")
                 text_color = graphics.Color(0, 0, 255)  # Default Color is UW purple
                 text = "Starting Server"
-                self.dw(font, text_color, text, x, y, total_time, period)
+                self.draw_text(font, text_color, text, x, y)
+                time.sleep(2)
+                self.draw_text(font, text_color, "", x, y)
+                time.sleep(4)
 
             # Set the desired font
             font.LoadFont("../../../fonts/10x20.bdf")

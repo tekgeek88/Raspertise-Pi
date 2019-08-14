@@ -33,19 +33,20 @@ class RunText(SampleBase):
 
         # The list we will use to fetch and pop advertisements from the running web app
         ads = list()
+
+        # Set the desired font
+        font.LoadFont("../../../fonts/10x20.bdf")
         while True:
+            # while not utils.is_server_listening():
+            #     font.LoadFont("../../../fonts/tom-thumb.bdf")
+            #     text_color = graphics.Color(0, 0, 255)  # Default Color is UW purple
+            #     text = "Starting Server"
+            #     self.draw_text(font, text_color, text, x, y)
+            #     time.sleep(2)
+            #     self.draw_text(font, text_color, "", x, y)
+            #     time.sleep(4)
 
-            while not utils.is_server_listening():
-                font.LoadFont("../../../fonts/tom-thumb.bdf")
-                text_color = graphics.Color(0, 0, 255)  # Default Color is UW purple
-                text = "Starting Server"
-                self.draw_text(font, text_color, text, x, y)
-                time.sleep(2)
-                self.draw_text(font, text_color, "", x, y)
-                time.sleep(4)
 
-            # Set the desired font
-            font.LoadFont("../../../fonts/10x20.bdf")
             # If the ad list is empty refill it with new ads from the database
             # Then display the devices ip address to allow users to connect and purchase ads
             if not ads:
@@ -59,7 +60,9 @@ class RunText(SampleBase):
                 advertisement = ads.pop(0)
                 text = advertisement['message']
                 speed = advertisement['speed']
-                red, green, blue = tuple(map(int, advertisement['color'].split(",")))
+                conv_color = advertisement['color'].lstrip('#')
+                red, green, blue = tuple(int(conv_color[i:i+2], 16) for i in (0, 2, 4))
+                # print("Color: " + str(conv_color) + " R: " + str(red) + " G: " + str(green) + " B: " + str(blue))
                 text_color = graphics.Color(red, green, blue)
             # Draw the text to the matrix panel
             self.draw_ad(font, text_color, text, speed)
